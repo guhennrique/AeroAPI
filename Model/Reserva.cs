@@ -10,6 +10,7 @@ namespace AeroAPI.Model
         public int Id { get; set; }
 
         public int VooId { get; set; }
+        public Voo Voo { get; set; }
 
         public string Documento { get; set; }
 

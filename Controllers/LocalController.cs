@@ -11,48 +11,48 @@ namespace AeroAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReservaController : ControllerBase
+    public class LocalController : ControllerBase
     {
         private readonly AeroContext _context;
 
-        public ReservaController(AeroContext context)
+        public LocalController(AeroContext context)
         {
             _context = context;
         }
 
-        // GET: api/Reserva
+        // GET: api/Local
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Reserva>>> GetReservas()
+        public async Task<ActionResult<IEnumerable<Local>>> GetLocais()
         {
-            return await _context.Reservas.ToListAsync();
+            return await _context.Locais.ToListAsync();
         }
 
-        // GET: api/Reserva/5
+        // GET: api/Local/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Reserva>> GetReserva(int id)
+        public async Task<ActionResult<Local>> GetLocal(int id)
         {
-            var reserva = await _context.Reservas.FindAsync(id);
+            var local = await _context.Locais.FindAsync(id);
 
-            if (reserva == null)
+            if (local == null)
             {
                 return NotFound();
             }
 
-            return reserva;
+            return local;
         }
 
-        // PUT: api/Reserva/5
+        // PUT: api/Local/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutReserva(int id, Reserva reserva)
+        public async Task<IActionResult> PutLocal(int id, Local local)
         {
-            if (id != reserva.Id)
+            if (id != local.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(reserva).State = EntityState.Modified;
+            _context.Entry(local).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace AeroAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ReservaExists(id))
+                if (!LocalExists(id))
                 {
                     return NotFound();
                 }
@@ -73,37 +73,37 @@ namespace AeroAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Reserva
+        // POST: api/Local
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Reserva>> PostReserva(Reserva reserva)
+        public async Task<ActionResult<Local>> PostLocal(Local local)
         {
-            _context.Reservas.Add(reserva);
+            _context.Locais.Add(local);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetReserva", new { id = reserva.Id }, reserva);
+            return CreatedAtAction("GetLocal", new { id = local.Id }, local);
         }
 
-        // DELETE: api/Reserva/5
+        // DELETE: api/Local/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Reserva>> DeleteReserva(int id)
+        public async Task<ActionResult<Local>> DeleteLocal(int id)
         {
-            var reserva = await _context.Reservas.FindAsync(id);
-            if (reserva == null)
+            var local = await _context.Locais.FindAsync(id);
+            if (local == null)
             {
                 return NotFound();
             }
 
-            _context.Reservas.Remove(reserva);
+            _context.Locais.Remove(local);
             await _context.SaveChangesAsync();
 
-            return reserva;
+            return local;
         }
 
-        private bool ReservaExists(int id)
+        private bool LocalExists(int id)
         {
-            return _context.Reservas.Any(e => e.Id == id);
+            return _context.Locais.Any(e => e.Id == id);
         }
     }
 }
