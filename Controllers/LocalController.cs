@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AeroAPI.Model;
+using AeroAPI.DTO;
 
 namespace AeroAPI.Controllers
 {
@@ -45,13 +46,13 @@ namespace AeroAPI.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLocal(int id, Local local)
+        public async Task<IActionResult> PutLocal(int id, LocalDTO localDTO)
         {
-            if (id != local.Id)
-            {
-                return BadRequest();
-            }
-
+            var local = _context.Locais.Find(id);
+            local.Estado = localDTO.Estado;
+            local.Cidade = localDTO.Cidade;
+            local.Sigla = localDTO.Sigla;
+            local.Nome = localDTO.Nome;
             _context.Entry(local).State = EntityState.Modified;
 
             try

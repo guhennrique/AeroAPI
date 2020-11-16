@@ -7,10 +7,11 @@ namespace AeroAPI.DTO
 {
     public class ReservaDTO
     {
+
         public int VooId { get; set; }
 
         public string Documento { get; set; }
 
-        public int poltrona { get; set; }
+        public int Poltrona { get; set; }
     }
 }

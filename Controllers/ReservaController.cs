@@ -80,10 +80,11 @@ namespace AeroAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Reserva>> PostReserva(ReservaDTO reservaDTO)
         {
+
             var reservaModel = new Reserva();
             reservaModel.Documento = reservaDTO.Documento;
             reservaModel.VooId = reservaDTO.VooId;
-            reservaModel.Poltrona = reservaDTO.poltrona;
+            reservaModel.Poltrona = reservaDTO.Poltrona;
 
             _context.Reservas.Add(reservaModel);
             await _context.SaveChangesAsync();

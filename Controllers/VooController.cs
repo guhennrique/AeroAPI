@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AeroAPI.Model;
+using AeroAPI.DTO;
 
 namespace AeroAPI.Controllers
 {
@@ -20,15 +21,38 @@ namespace AeroAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Voo
-        [HttpGet("FiltrarVoo"]
-        public async Task<ActionResult<IEnumerable<Voo>>> GetVoosFiltro(int localOrigemId, int localDestinoId,
-            DateTime dataIda, DateTime dataVolta)
+        // GET: api/Local
+        [HttpGet]
+        public IActionResult GetAll()
         {
-            return await _context.Voos.Where(Voo => Voo.LocalOrigemId == localOrigemId ||
-                       Voo.LocalDestinoId == localDestinoId || Voo.DataIda == dataIda || Voo.DataVolta == dataVolta).ToListAsync();
+
+            return Ok(Convert(_context.Voos.ToList()));
+
+
         }
 
+        [HttpGet("ComFiltro")]
+        public ActionResult GetComFiltro([FromQuery] FiltroVooDTO filtro)
+        {
+            var listaParaRetornar = _context.Voos.Where(item => item.LocalDestinoId == filtro.DestinoId && item.LocalOrigemId == filtro.OrigemId && item.DataIda > filtro.DataInicial
+            && item.DataIda <= filtro.DataFinal);
+            return Ok(Convert(listaParaRetornar.ToList()));
+        }
+
+        private IEnumerable<dynamic> Convert(List<Voo> lista)
+        {
+            return lista.Select(item => new
+            {
+                item.Id,
+                item.DataIda,
+                item.DataVolta,
+                item.LocalDestinoId,
+                item.LocalOrigemId,
+                item.NumeroParadas,
+                item.Preco,
+                PrecoComDesconto = item.Preco * 0.9
+            });
+        }
 
         // GET: api/Voo/5
         [HttpGet("{id}")]
